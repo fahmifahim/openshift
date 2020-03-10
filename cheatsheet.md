@@ -4,11 +4,11 @@ $ oc get pod -n default -o wide
 ```
 
 Export all resources to yaml
-```
+```bash
 $ oc get all --all-namespaces --export -o yaml > export-file.yaml
 ```
 
-```
+```bash
 # Show the current SCC
 $ oc get scc
 
@@ -22,5 +22,7 @@ $ oc adm policy reconcile-sccs --confirm
 
 
 ```yaml
+kind: Pod
+
 
 ```
