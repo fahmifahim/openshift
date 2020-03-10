@@ -20,3 +20,9 @@ $ oc adm policy reconcile-sccs
 $ oc adm policy reconcile-sccs --confirm
 ```
 
+Get pod-name and pod-scc
+```bash
+$ oc get pods <pod-name> -o=jsonpath='{.metadata.name}{"¥t"}{.metadata.annotations}{"¥n"}'
+# output will be as below
+# <pod-name> map[openshift.io/scc:anyuid]
+```
