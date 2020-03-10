@@ -1,1 +1,1 @@
-# openshift
+# Repository for OpenShift cheatsheet
