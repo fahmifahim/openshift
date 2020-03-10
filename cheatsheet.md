@@ -20,9 +20,3 @@ $ oc adm policy reconcile-sccs
 $ oc adm policy reconcile-sccs --confirm
 ```
 
-
-```yaml
-kind: Pod
-
-
-```
