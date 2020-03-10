@@ -1,5 +1,5 @@
 Show pod 
-```
+```bash
 # oc get pod -n default -o wide
 ```
 
