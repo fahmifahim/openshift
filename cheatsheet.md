@@ -1,6 +1,6 @@
 Show pod 
 ```bash
-# oc get pod -n default -o wide
+$ oc get pod -n default -o wide
 ```
 
 Export all resources to yaml
