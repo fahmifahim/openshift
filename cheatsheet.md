@@ -27,3 +27,15 @@ $ oc get pods <pod-name> -o=jsonpath='{.metadata.name}{"¥t"}{.metadata.annotati
 # output will be as below
 # <pod-name> map[openshift.io/scc:anyuid]
 ```
+
+Get name and fsGroups from SCC (Security Context Contrain)
+```bash
+$ oc get scc --no-headers | awk '{print "oc get scc "$1" -o jsonpath=@{.metadata.name}{.groups}@; echo ¥n"}' | sed 's/@/"/g' | sh
+# .metadata.name = SCC Name
+# .groups = SCC fsGroups
+# sed to change the @ to " at jsonpath grammar
+# sample result: 
+anyuid[system:cluster-admins]
+hostaccess[]
+restricted[system:authenticated]
+```
