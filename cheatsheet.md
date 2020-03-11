@@ -6,6 +6,7 @@ $ oc get pod -n default -o wide
 Export all resources to yaml
 ```bash
 $ oc get all --all-namespaces --export -o yaml > export-file.yaml
+# --export remove the timestamp
 ```
 
 ```bash
