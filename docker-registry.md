@@ -1,0 +1,12 @@
+### CURL private docker registry
+```bash
+$ curl https://oauth:`oc whoami -t`@<private-docker-registry-URL>/v2/_catalog --cacert <CA-certificate-path>
+$ curl https://oauth:`oc whoami -t`@<private-docker-registry-URL>/v2/_catalog --insecure
+```
+
+### CURL public-online docker registry (redhat.com, docker.com, etc) via proxy
+```bash
+$ curl -x http://<proxy-URL>:8080 -L https://www.openshift.com
+$ curl -x http://<proxy-URL>:8080 -L https://sso.redhat.com
+$ curl -x http://<proxy-URL>:8080 -L https://www.docker.com
+```
