@@ -1,2 +1,2 @@
 ## Repository for OpenShift cheatsheet
-Lets go to the [cheatsheet.md](https://github.com/fahmifahim/openshift/blob/master/cheatsheet.md) file
+Lets go to the [cheatsheet.md](https://github.com/fahmifahim/openshift/blob/master/openshift-cheatsheet.md) file
