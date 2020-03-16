@@ -3,6 +3,14 @@ Show pod
 $ oc get pod -n default -o wide
 ```
 
+OpenShift docker/kubelet status-stop-start-status
+```bash
+$ systemctl status docker atomic-openshift-node 
+$ systemctl stop docker atomic-openshift-node
+$ systemctl start docker atomic-openshift-node
+$ systemctl status docker atomic-openshift-node 
+```
+
 Export all resources to yaml
 ```bash
 $ oc get all --all-namespaces --export -o yaml > export-file.yaml
