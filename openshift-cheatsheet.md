@@ -47,3 +47,12 @@ anyuid[system:cluster-admins]
 hostaccess[]
 restricted[system:authenticated]
 ```
+
+Open Remote Shell session to a container
+```bash
+$ oc rsh pod/<pod-name> id
+# Enter into a container, and execute the "id" command
+
+$ oc rsh dc/docker-registry cat config.yaml
+# See the configuration of your internal registry
+```
