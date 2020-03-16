@@ -50,9 +50,9 @@ restricted[system:authenticated]
 
 Open Remote Shell session to a container
 ```bash
-$ oc rsh pod/<pod-name> id
 # Enter into a container, and execute the "id" command
+$ oc rsh pod/<pod-name> id
 
-$ oc rsh dc/docker-registry cat config.yaml
 # See the configuration of your internal registry
+$ oc rsh dc/docker-registry cat config.yaml
 ```
