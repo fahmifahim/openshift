@@ -56,3 +56,9 @@ $ oc rsh pod/<pod-name> id
 # See the configuration of your internal registry
 $ oc rsh dc/docker-registry cat config.yaml
 ```
+
+[Check certificate built on OCP](https://access.redhat.com/documentation/en-us/openshift_container_platform/3.11/html/configuring_clusters/install-config-redeploying-certificates)
+```bash
+$ ansible-playbook -i /etc/ansible/hosts /usr/share/ansible/openshift-ansible/playbooks/openshift-checks/certificate_expiry/easy-mode.yaml
+# Check the result on the output html/json file 
+```
