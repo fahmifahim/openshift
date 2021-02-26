@@ -1,0 +1,61 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: fluentdconf
+  namespace: development
+data:
+  fluent.conf: |
+      <source>
+        @type tail
+        time_key time
+        format multiline
+        format_firstline /^\[[[A-Z]|\s]+\]/
+        format1 /^\[(?<LogLevel>[[A-Z]|\s]+)\]\[(?<time>[0-9]{4}-[0-9]{2}-[0-9]{2}\s[0-9]{2}\:[0-9]{2}\:[0-9]{2}\,[0-9]{3})\]\s-\s(?<message>.*+)$/
+        path /opt/tomcat/webapps/ROOT/WEB-INF/log/myapp.log
+        pos_file /tmp/myapp.log.pos
+        tag dev.myapp.applogs
+      </source>
+
+      <filter dev.myapp.applogs>
+        @type record_transformer
+        <record>
+        hostname ${hostname}
+        </record>
+      </filter>
+
+      <match dev.myapp.applogs>
+        @type elasticsearch
+        host 172.99.1.218
+        port 59200
+        user elasticusr
+        password Pa$$w0rd
+        index_name fluentd.${tag}
+        logstash_format true
+        logstash_prefix dev.myapp.applogs
+        flush_interval 1s
+      </match>
+
+      <source>
+        @type tail
+        path /opt/tomcat/logs/localhost_access_log.%Y-%m-%d.txt
+        pos_file /tmp/tomcataccesslog.pos
+        tag dev.myapp.tomcatlogs
+        format apache2
+      </source>
+
+      <filter dev.myapp.tomcatlogs>
+        @type record_transformer
+        <record>
+        hostname ${hostname}
+        </record>
+      </filter>
+
+      <match dev.myapp.tomcatlogs>
+        @type elasticsearch
+        host 172.99.1.218
+        port 59200
+        user elasticusr
+        password Pa$$w0rd
+        logstash_format true
+        logstash_prefix dev.myapp.tomcatlogs
+      </match>
