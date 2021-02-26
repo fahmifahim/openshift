@@ -23,28 +23,3 @@ data:
         logstash_prefix dev.myapp.applogs
         flush_interval 1s
       </match>
-
-      <source>
-        @type tail
-        path /opt/tomcat/logs/localhost_access_log.%Y-%m-%d.txt
-        pos_file /tmp/tomcataccesslog.pos
-        tag dev.myapp.tomcatlogs
-        format apache2
-      </source>
-
-      <filter dev.myapp.tomcatlogs>
-        @type record_transformer
-        <record>
-        hostname ${hostname}
-        </record>
-      </filter>
-
-      <match dev.myapp.tomcatlogs>
-        @type elasticsearch
-        host 172.99.1.218
-        port 59200
-        user elasticusr
-        password Pa$$w0rd
-        logstash_format true
-        logstash_prefix dev.myapp.tomcatlogs
-      </match>
