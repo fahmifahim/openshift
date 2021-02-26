@@ -13,13 +13,5 @@ data:
       </source>
 
       <match wlp.verbose1>
-        @type elasticsearch
-        host 172.99.1.218
-        port 59200
-        user elasticusr
-        password Pa$$w0rd
-        index_name fluentd.${tag}
-        logstash_format true
-        logstash_prefix dev.myapp.applogs
-        flush_interval 1s
+        @type stdout
       </match>
