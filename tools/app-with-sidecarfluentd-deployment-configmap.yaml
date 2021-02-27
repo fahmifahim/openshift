@@ -1,5 +1,22 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: fluentd-confmap
+  namespace: dev-project
+data:
+  fluent.conf: |
+      <source>
+        @type tail
+        path /logs/defaultServer/verbosegc*.log
+        pos_file /var/log/1.log.pos
+        tag wlp.verbose1
+      </source>
 
-
+      <match wlp.verbose1>
+        @type stdout
+      </match>
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
