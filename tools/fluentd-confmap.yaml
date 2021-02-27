@@ -2,7 +2,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: fluentd-confmap
-  namespace: ocp-pj-sample1
+  namespace: dev-project
 data:
   fluent.conf: |
       <source>
