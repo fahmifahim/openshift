@@ -1,21 +1,19 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: myapp-dpl
-  namespace: development
+  name: app-with-sidecar-td
+  namespace: dev-project
   labels:
-    app: myapp
+    app: app
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: myapp
+      app: app
   template:
     metadata:
       labels:
-        environment: DEV
-        managedby: K8s
-        app: myapp
+        app: app
     spec:
       containers:
 
@@ -35,6 +33,7 @@ spec:
 
       # This is for FluentD Logging Container
       - name: fluentd
+        image: openshift/ose-fluentd:latest
         env:
         - name: FLUENT_UID
           value: root
@@ -42,7 +41,6 @@ spec:
           value: fluent.conf
         - name: FLUENTD_ARGS
           value: -c /fluentd/etc/fluent.conf
-        image: saravak/fluentd:elastic
         volumeMounts:
         - name: applog
           mountPath: /opt/tomcat/webapps/ROOT/WEB-INF/log/
