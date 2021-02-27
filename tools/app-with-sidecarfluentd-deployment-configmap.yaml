@@ -1,0 +1,61 @@
+
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app-with-sidecar-td
+  namespace: dev-project
+  labels:
+    app: app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: app
+  template:
+    metadata:
+      labels:
+        app: app
+    spec:
+      containers:
+
+      # Primary Container
+      - name: tomcat
+        image:  saravak/tomcat8
+        volumeMounts:
+          - name: applog
+            mountPath: /opt/tomcat/webapps/ROOT/WEB-INF/log/
+          - name: tomcatlog
+            mountPath: /opt/tomcat/logs
+        ports:
+        - containerPort: 8080
+        resources:
+          limits:
+            memory: 1028Mi
+
+      # This is for FluentD Logging Container
+      - name: fluentd
+        image: openshift/ose-logging-fluentd:v3.11.248
+        env:
+        - name: FLUENT_UID
+          value: root
+        - name: FLUENT_CONF
+          value: fluent.conf
+        - name: FLUENTD_ARGS
+          value: -c /fluentd/etc/fluent.conf
+        volumeMounts:
+        #The logs to be shared with tomcat app
+        - name: applog
+          mountPath: /opt/tomcat/webapps/ROOT/WEB-INF/log/
+        #Fluentd configmap 
+        - name:  fluentd-confmap
+          mountPath:  /fluentd/etc/
+
+      volumes:
+      - name: applog
+        emptyDir: {}
+      - name: tomcatlog
+        emptyDir: {}
+      - name: fluentd-confmap
+        configMap:
+          name: fluentd-confmap
