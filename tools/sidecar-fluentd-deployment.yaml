@@ -33,7 +33,7 @@ spec:
 
       # This is for FluentD Logging Container
       - name: fluentd
-        image: openshift/ose-fluentd:latest
+        image: openshift/ose-logging-fluentd:v3.11.248
         env:
         - name: FLUENT_UID
           value: root
