@@ -1,0 +1,59 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: myapp-dpl
+  namespace: development
+  labels:
+    app: myapp
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: myapp
+  template:
+    metadata:
+      labels:
+        environment: DEV
+        managedby: K8s
+        app: myapp
+    spec:
+      containers:
+
+      # Primary Container
+      - name: tomcat
+        image:  saravak/tomcat8
+        volumeMounts:
+          - name: applog
+            mountPath: /opt/tomcat/webapps/ROOT/WEB-INF/log/
+          - name: tomcatlog
+            mountPath: /opt/tomcat/logs
+        ports:
+        - containerPort: 8080
+        resources:
+          limits:
+            memory: 1028Mi
+
+      # This is for FluentD Logging Container
+      - name: fluentd
+        env:
+        - name: FLUENT_UID
+          value: root
+        - name: FLUENT_CONF
+          value: fluent.conf
+        - name: FLUENTD_ARGS
+          value: -c /fluentd/etc/fluent.conf
+        image: saravak/fluentd:elastic
+        volumeMounts:
+        - name: applog
+          mountPath: /opt/tomcat/webapps/ROOT/WEB-INF/log/
+        - name:  fdconf
+          mountPath:  /fluentd/etc/
+
+      volumes:
+      - name: applog
+        emptyDir: {}
+      - name: tomcatlog
+        emptyDir: {}
+      - name: fdconf
+        configMap:
+          name: fluentdconf
