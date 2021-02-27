@@ -42,9 +42,11 @@ spec:
         - name: FLUENTD_ARGS
           value: -c /fluentd/etc/fluent.conf
         volumeMounts:
+        #The logs to be shared with tomcat app
         - name: applog
           mountPath: /opt/tomcat/webapps/ROOT/WEB-INF/log/
-        - name:  fdconf
+        #Fluentd configmap 
+        - name:  fluentd-confmap
           mountPath:  /fluentd/etc/
 
       volumes:
@@ -52,6 +54,6 @@ spec:
         emptyDir: {}
       - name: tomcatlog
         emptyDir: {}
-      - name: fdconf
+      - name: fluentd-confmap
         configMap:
-          name: fluentdconf
+          name: fluentd-confmap
