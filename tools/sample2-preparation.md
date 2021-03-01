@@ -10,6 +10,9 @@ docker save -o /home/user1/fluentd.tar fluent/fluentd:latest
 
 ls -l /home/user1/fluentd.tar
 
+#Copy the image to your remote server
+scp /home/user1/fluentd.tar root@remote-server-ip:/home/user1/
+
 #Load image from local file
 docker load -i /home/user1/fluentd.tar
         df64d3292fd6: Loading layer [==================================================>]  4.672MB/4.672MB
