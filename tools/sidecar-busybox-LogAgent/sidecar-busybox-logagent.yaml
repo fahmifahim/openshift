@@ -1,0 +1,71 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: counter
+spec:
+  containers:
+  - name: count
+    image: busybox:latest
+    args:
+    - /bin/sh
+    - -c
+    - >
+      i=0;
+      while true;
+      do
+        echo "$i: $(date)" >> /var/log/1.log;
+        echo "$(date) INFO $i" >> /var/log/2.log;
+        i=$((i+1));
+        sleep 1;
+      done      
+    volumeMounts:
+    - name: varlog
+      mountPath: /var/log
+  - name: log-agent
+    image: custom-busybox:latest
+    args:
+    - /bin/sh
+    - -c
+    - >
+      while true;
+      do
+        cp /var/log/1.log /dump-nfs/;
+        cp /var/log/2.log /dump-nfs/;
+        sleep 10;
+      done      
+    volumeMounts:
+    - name: varlog
+      mountPath: /var/log
+    - name: dump-volume
+      mountPath: /dump-nfs
+  volumes:
+  - name: varlog
+    emptyDir: {}
+  - name: dump-volume
+    persistentVolumeClaim:
+      claimName: dump-volume-claim
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata: 
+  name: dump-volume-claim
+spec:
+  accessModes:
+  - ReadWriteMany
+  resources:
+    requests:
+      storage: 1Gi
+---
+apiVersion: v1
+kind: PersistentVolume 
+metadata:
+  name: dump-volume-pv
+spec: 
+  accessModes:
+  - ReadWriteMany
+  capacity:
+    storage: 1Gi
+  nfs:
+    path: /shared/dump
+    server: nfs-ip-address-here
+  persistentVolumeReclaimPolicy: Retain
