@@ -40,6 +40,12 @@ docker load -i /home/user1/custom-busybox.tar
 #### Test your image  
 ```bash
 #Create pod using log-counter-busybox.yaml
-kubectl create -f log-counter-busybox.yaml
+kubectl create -f log-counter-busybox.yaml -n dev-namespace
+        pod/counter-customized created
+
+kubectl get pod -n dev-namespace
+        NAME                 READY   STATUS    RESTARTS   AGE
+        counter-customized   1/1     Running   0          91s
+
 
 ```
