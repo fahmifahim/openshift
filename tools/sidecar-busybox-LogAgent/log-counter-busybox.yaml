@@ -1,11 +1,11 @@
 apiVersion: v1
 kind: Pod
 metadata:
-  name: counter
+  name: counter-customized
 spec:
   containers:
   - name: count
-    image: busybox
+    image: custom-busybox:v1.32.1   #Use this newly customed busybox
     args:
     - /bin/sh
     - -c
@@ -16,7 +16,7 @@ spec:
         echo "$i: $(date)" >> /var/log/1.log;
         echo "$(date) INFO $i" >> /var/log/2.log;
         i=$((i+1));
-        rsync -avu /var/log/ /tmp >> /tmp/rsync.log;
+        /bin/rsync -avu /var/log/ /tmp >> /tmp/rsync.log;
         sleep 3;
       done      
     volumeMounts:
