@@ -1,0 +1,27 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: counter
+spec:
+  containers:
+  - name: count
+    image: busybox
+    args:
+    - /bin/sh
+    - -c
+    - >
+      i=0;
+      while true;
+      do
+        echo "$i: $(date)" >> /var/log/1.log;
+        echo "$(date) INFO $i" >> /var/log/2.log;
+        i=$((i+1));
+        rsync -avu /var/log/ /tmp >> /tmp/rsync.log;
+        sleep 3;
+      done      
+    volumeMounts:
+    - name: varlog
+      mountPath: /var/log
+  volumes:
+  - name: varlog
+    emptyDir: {}
