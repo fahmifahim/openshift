@@ -7,4 +7,4 @@ CMD ["/bin/rsync"]
 
 #Notes:
 #You need to prepare for all related library to fully execute the rsync command
-#Check the related library with: 
+#Check the related library with: ldd $(which rsync)
