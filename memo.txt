@@ -1,2 +1,3 @@
 OCPv.3.x VS OCPv.4.x
+Some additional commands/features:
 - oc debug node/my-node-name
