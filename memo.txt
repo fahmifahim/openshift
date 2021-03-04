@@ -1,0 +1,2 @@
+OCPv.3.x VS OCPv.4.x
+- oc debug node/my-node-name
