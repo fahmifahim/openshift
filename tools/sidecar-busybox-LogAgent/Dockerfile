@@ -7,4 +7,5 @@ CMD ["/bin/rsync"]
 
 #Notes:
 #You need to prepare for all related library to fully execute the rsync command
-#Check the related library with: ldd $(which rsync)
+#Check the related library with: ldd $(which rsync) on your Linux machine
+#Then, put the related library to your busybox image
